@@ -1,0 +1,116 @@
+# ==========================================
+# Dependencies
+# ==========================================
+node_modules/
+**/node_modules/
+client/node_modules/
+server/node_modules/
+
+# ==========================================
+# Environment Variables & Secrets
+# ==========================================
+.env
+.env.*
+**/.env
+**/.env.*
+*.local
+**/*.local
+**/.env*.local
+!.env.example
+!**/.env.example
+!client/.env.example
+!server/.env.example
+
+# ==========================================
+# Build & Bundle Outputs
+# ==========================================
+dist/
+build/
+out/
+**/dist/
+**/build/
+**/out/
+
+# ==========================================
+# Deployment Platforms (Vercel, Netlify)
+# ==========================================
+.vercel
+.vercel/
+.netlify/
+
+# ==========================================
+# User Uploads & Media Files
+# ==========================================
+uploads/
+**/uploads/
+public/uploads/
+**/public/uploads/
+
+# ==========================================
+# Logs & Process IDs
+# ==========================================
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==========================================
+# Caches & Temporary Files
+# ==========================================
+.cache/
+.parcel-cache/
+.turbo/
+.vite/
+**/node_modules/.cache/
+*.tmp
+*.temp
+.eslintcache
+
+# ==========================================
+# Supabase Local Development
+# ==========================================
+.supabase/
+supabase/.temp/
+
+# ==========================================
+# Database Binaries & Backups
+# (Keeps server/sql/ migration files)
+# ==========================================
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.backup
+dump.sql
+
+# ==========================================
+# Test Coverage
+# ==========================================
+coverage/
+.nyc_output/
+
+# ==========================================
+# Operating System Files
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================================
+# IDE & Code Editor Configs
+# ==========================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo

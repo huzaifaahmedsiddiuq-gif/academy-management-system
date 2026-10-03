@@ -1,0 +1,1126 @@
+ACADEMY MANAGEMENT SOFTWARE — COMPLETE IMPLEMENTATION PROMPT
+
+Mujhe aik complete, modern, premium aur fully responsive Academy Management Software banana hai using MERN-style JavaScript stack.
+
+TECH STACK:
+
+Frontend:
+- React.js
+- Vite
+- Tailwind CSS
+- React Router
+- Axios
+- JavaScript only
+
+Backend:
+- Node.js
+- Express.js
+- JavaScript
+
+Animation : 
+
+GSAP 
+
+DATABASE:
+
+Database ke liye 2 options provide karo:
+
+OPTION 1:
+- MySQL
+
+OPTION 2:
+- Supabase PostgreSQL
+
+Project architecture aisi honi chahiye ke developer project setup ke waqt database option select kar sake:
+
+DATABASE_PROVIDER=mysql
+
+ya
+
+DATABASE_PROVIDER=supabase
+
+Agar MySQL select ho to application MySQL database ke saath kaam kare.
+
+Agar Supabase select ho to application Supabase PostgreSQL ke saath kaam kare.
+
+Database-specific code ko application ke core business logic se separate rakho taake future mein MySQL se Supabase ya Supabase se MySQL switch karna possible ho.
+
+IMPORTANT:
+
+Ye sirf frontend UI project nahi hona chahiye.
+
+Ye aik real working full-stack Academy Management System hona chahiye jisme:
+
+- Real database
+- Real backend APIs
+- Authentication
+- Role-based access
+- Persistent data
+- Proper validation
+- Secure authorization
+- Responsive UI
+
+Static/mock data core functionality ke liye use nahi karna.
+
+==================================================
+PHASE 1 — PROJECT FOUNDATION
+==================================================
+
+Proper full-stack project structure create karo.
+
+Frontend:
+
+- React + Vite
+- Tailwind CSS
+- React Router
+- Axios
+- Context API where required
+
+Backend:
+
+- Node.js
+- Express.js
+- JavaScript
+
+Database layer:
+
+MySQL OR Supabase PostgreSQL
+
+Environment variables:
+
+DATABASE_PROVIDER=mysql
+
+or
+
+DATABASE_PROVIDER=supabase
+
+Other required environment variables:
+
+DATABASE_URL
+SUPABASE_URL
+SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+JWT_SECRET
+API_URL
+
+Sirf selected database ki required variables use karo.
+
+Frontend aur backend properly connect hone chahiye.
+
+==================================================
+PHASE 2 — DATABASE ARCHITECTURE
+==================================================
+
+Relational database architecture use karo.
+
+Create proper database tables/entities:
+
+- users
+- students
+- teachers
+- classes
+- subjects
+- class_subjects
+- teacher_classes
+- teacher_subjects
+- attendance
+- exams
+- results
+- homework
+- homework_submissions
+- study_material
+- fees
+- payments
+- announcements
+- notifications
+- academy_settings
+
+Proper primary keys aur foreign keys use karo.
+
+Relationships properly define karo.
+
+Example:
+
+Class
+↓
+Subjects
+↓
+Teachers
+↓
+Students
+
+Student
+↓
+Attendance
+↓
+Results
+↓
+Homework
+↓
+Fees
+↓
+Payments
+
+Database mein unnecessary duplicate data avoid karo.
+
+Use proper indexes for:
+
+- student name
+- roll number
+- phone
+- class
+- teacher
+- fee status
+- attendance date
+
+aur end main ek file bana kr den query run krne ke liye aur step by step guide bhi krna 
+==================================================
+PHASE 3 — DATABASE PROVIDER LAYER
+==================================================
+
+Application mein database abstraction layer create karo.
+
+Example structure:
+
+/server
+  /config
+  /database
+    mysql.js
+    supabase.js
+    index.js
+  /controllers
+  /routes
+  /services
+  /middleware
+  /utils
+
+database/index.js selected provider ke according correct database connection/service load kare.
+
+Business logic ko directly MySQL ya Supabase-specific queries ke saath tightly couple nahi karna.
+
+Example:
+
+StudentService
+
+AttendanceService
+
+FeeService
+
+ResultService
+
+NotificationService
+
+In services ke through database operations perform karo.
+
+==================================================
+PHASE 4 — AUTHENTICATION & USER ROLES
+==================================================
+
+System mein 3 main roles hon:
+
+1. Admin
+2. Teacher
+3. Student
+
+Features:
+
+- Login
+- Logout
+- Password hashing
+- Protected routes
+- Role-based authorization
+- Session persistence
+- Change password
+- Forgot password
+- Reset password
+
+Rules:
+
+Admin → Admin Panel
+
+Teacher → Teacher Panel
+
+Student → Student Portal
+
+Student kabhi bhi doosre student ka data access na kar sake.
+
+Teacher sirf assigned classes aur students manage kare.
+
+Backend level par authorization enforce karo.
+
+==================================================
+PHASE 5 — ADMIN DASHBOARD
+==================================================
+
+Premium Admin Dashboard create karo.
+
+Dynamic cards:
+
+- Total Students
+- Active Students
+- Total Teachers
+- Today's Attendance
+- Total Fees Collected
+- Outstanding Fees
+- Pending Homework
+- Recent Payments
+- Recent Students
+- Upcoming Exams
+- Recent Activities
+
+Charts:
+
+- Monthly Fee Collection
+- Attendance
+- Student Growth
+- Result Performance
+
+Saare numbers selected database se dynamically calculate hon.
+
+Hardcoded numbers use nahi karna.
+
+==================================================
+PHASE 6 — STUDENT MANAGEMENT
+==================================================
+
+Admin:
+
+- Add Student
+- Edit Student
+- Delete Student
+- Activate/Deactivate
+- Search
+- Filter
+- View Profile
+- Reset Password
+- Assign Class
+- Assign Subjects
+- Assign Teacher
+
+Student fields:
+
+- Full Name
+- Father/Guardian Name
+- Phone
+- Email
+- Address
+- Date of Birth
+- Admission Date
+- Roll Number
+- Class
+- Section
+- Profile Picture
+- Account Status
+
+Student profile:
+
+- Personal Information
+- Attendance
+- Results
+- Homework
+- Study Material
+- Fees
+- Payments
+- Announcements
+- Notifications
+- Activity History
+
+==================================================
+PHASE 7 — TEACHER MANAGEMENT
+==================================================
+
+Admin:
+
+- Add Teacher
+- Edit Teacher
+- Delete Teacher
+- Activate/Deactivate
+- Assign Classes
+- Assign Subjects
+- View Profile
+- Reset Password
+
+Teacher Dashboard:
+
+- Assigned Classes
+- Assigned Students
+- Attendance
+- Homework
+- Results
+- Study Material
+
+Teacher sirf assigned students/classes manage kare.
+
+==================================================
+PHASE 8 — CLASS & SUBJECT MANAGEMENT
+==================================================
+
+Admin classes create/manage kar sake.
+
+Example:
+
+- Grade 6
+- Grade 7
+- Grade 8
+- Grade 9
+- Grade 10
+- Grade 11
+- Grade 12
+
+Subjects:
+
+- Mathematics
+- English
+- Physics
+- Chemistry
+- Biology
+- Computer
+- Islamiyat
+- Urdu 
+- Sindhi
+- 
+
+Relationships:
+
+Class
+↓
+Subjects
+↓
+Teacher
+↓
+Students
+
+or subjects add krne ka bhi option hn or delete or edit ka bhi 
+
+==================================================
+PHASE 9 — ATTENDANCE SYSTEM
+==================================================
+
+Admin/Teacher:
+
+- Daily Attendance
+- Monthly Attendance
+- Edit Attendance
+- Student-wise Attendance
+- Class-wise Attendance
+- Date Filter
+- Search
+- Attendance Report
+
+Statuses:
+
+- Present
+- Absent
+- Leave
+
+Automatically calculate:
+
+- Total Classes
+- Present
+- Absent
+- Leave
+- Attendance Percentage
+
+Student sirf apni attendance dekh sake.
+
+==================================================
+PHASE 10 — RESULTS SYSTEM
+==================================================
+
+Admin/Teacher:
+
+- Create Exam
+- Add Subjects
+- Enter Marks
+- Edit Marks
+- Delete Marks
+- Publish Result
+- Unpublish Result
+
+Student:
+
+- Exam
+- Subject
+- Total Marks
+- Obtained Marks
+- Percentage
+- Grade
+- Remarks
+- Exam Date
+
+Features:
+
+- Result History
+- Performance Chart
+- Print Result
+- Download PDF
+- Share Result on WhatsApp
+
+Sirf published result student ko show ho.
+
+==================================================
+PHASE 11 — HOMEWORK SYSTEM
+==================================================
+
+Admin/Teacher:
+
+- Create Homework
+- Edit Homework
+- Delete Homework
+- Assign Class
+- Assign Student
+- Due Date
+- Description
+- File Attachment
+
+Statuses:
+
+- Pending
+- Submitted
+- Completed
+- Overdue
+
+Student:
+
+- View Homework
+- View Due Date
+- Submit Homework
+- View Submission Status
+
+Homework ko WhatsApp par share karne ka option bhi ho.
+
+==================================================
+PHASE 12 — STUDY MATERIAL
+==================================================
+
+Admin/Teacher upload kar saken:
+
+- PDF
+- Notes
+- Books
+- Documents
+- Images
+- Assignments
+- Video Links
+
+Organization:
+
+Class
+↓
+Subject
+↓
+Chapter
+↓
+Topic
+↓
+Material
+
+Student:
+
+- Online View
+- Read PDF
+- Download
+- Search
+- Filter
+
+Student ko sirf uski class/subjects ka relevant material show ho.
+
+==================================================
+PHASE 13 — FEE MANAGEMENT
+==================================================
+
+Admin:
+
+- Create Monthly Fee
+- Record Payment
+- Edit Payment
+- Delete Payment
+- Partial Payment
+- Payment History
+- Generate Receipt
+- Print Receipt
+- Download PDF
+- Share Receipt on WhatsApp
+- Search Student
+- Paid/Unpaid/Partial Filter
+- Outstanding Fees
+
+Example:
+
+Total Fee: Rs. 5000
+Paid: Rs. 3000
+Remaining: Rs. 2000
+Status: Partial
+
+Next payment:
+
+Paid: Rs. 4000
+Remaining: Rs. 1000
+
+Final payment:
+
+Paid: Rs. 5000
+Remaining: Rs. 0
+Status: Paid
+
+Saari calculations database data se dynamically hon.
+
+==================================================
+PHASE 14 — STUDENT PORTAL
+==================================================
+
+Har student ka apna personalized portal ho.
+
+Dashboard:
+
+- Student Name
+- Profile Picture
+- Class
+- Roll Number
+- Attendance Percentage
+- Fee Status
+- Latest Result
+- Pending Homework
+- Latest Study Material
+- Latest Announcement
+- Notifications
+
+Sections:
+
+1. Dashboard
+2. Attendance
+3. Results
+4. Homework
+5. Study Material
+6. Fees
+7. Announcements
+8. Notifications
+9. Profile
+10. Change Password
+
+Student sirf apna data access kare.
+
+==================================================
+PHASE 15 — ANNOUNCEMENTS
+==================================================
+
+Admin:
+
+- Create
+- Edit
+- Delete
+- Priority
+- Publish
+- Schedule
+
+Examples:
+
+- Exam Notice
+- Holiday Notice
+- Fee Reminder
+- Academy Notice
+- Important Message
+
+Relevant students ko announcements show hon.
+
+==================================================
+PHASE 16 — NOTIFICATIONS
+==================================================
+
+Database-backed notification system.
+
+Notifications:
+
+- New Homework
+- Published Result
+- Fee Due
+- Fee Overdue
+- New Study Material
+- New Announcement
+
+Features:
+
+- Read/Unread
+- Notification Count
+- Mark as Read
+- Mark All as Read
+- Notification History
+
+Static notifications use nahi karna.
+
+==================================================
+PHASE 17 — REPORTS
+==================================================
+
+Professional reports:
+
+Student Report:
+- Student Information
+- Attendance
+- Results
+- Fees
+- Homework
+
+Attendance Report:
+- Daily
+- Monthly
+- Class-wise
+- Student-wise
+
+Fee Report:
+- Total Collection
+- Paid
+- Partial
+- Unpaid
+- Outstanding
+
+Result Report:
+- Exam
+- Class
+- Subject
+- Student Performance
+
+Reports:
+
+- Searchable
+- Filterable
+- Printable
+- Downloadable PDF
+- Shareable on WhatsApp
+
+==================================================
+PHASE 18 — GLOBAL SEARCH
+==================================================
+
+Admin global search:
+
+- Student Name
+- Roll Number
+- Phone
+- Class
+- Teacher
+- Fee Status
+
+Proper database queries use karo.
+
+==================================================
+PHASE 19 — PRINT + PDF + WHATSAPP SYSTEM
+==================================================
+
+Print, PDF aur WhatsApp sharing ko system-wide reusable functionality ke taur par build karo.
+
+Jahan relevant ho har page/document par:
+
+[ Print ]
+
+[ Download PDF ]
+
+[ Share on WhatsApp ]
+
+options available hon.
+
+Examples:
+
+Student:
+- Student Profile
+- Attendance Report
+- Result
+- Fee Receipt
+- Fee Statement
+- Complete Student Statement
+
+Admin:
+- Student Report
+- Attendance Report
+- Fee Report
+- Result Report
+- Payment Statement
+- Class Report
+
+Teacher:
+- Attendance Report
+- Homework
+- Results
+- Class Reports
+
+Printed documents professional academy format mein hon.
+
+Include:
+
+- Academy Logo
+- Academy Name
+- Address
+- Phone
+- Date
+- Student Information
+- Relevant Data
+- Signature Section
+
+Print karte waqt sidebar, buttons aur unnecessary UI hide ho jaye.
+
+PDF professional format mein generate ho.
+
+WhatsApp sharing ke liye professional pre-formatted message generate ho.
+
+Example:
+
+Dear Parent,
+
+Student: Ahmed Ali
+Class: Grade 9
+
+September Fee:
+Total: Rs. 5000
+Paid: Rs. 3000
+Remaining: Rs. 2000
+
+Please clear the remaining amount.
+
+Thank you,
+NextGen Academy
+
+WhatsApp integration initially wa.me links ke through implement karo.
+
+Actual WhatsApp API configured na ho to system ye claim na kare ke message automatically send ho gaya hai.
+
+acha WhatsApp ka output jo hn wo acha hon gap wagera heading bold colourful hr cheez use kro aur usko unique banado jesa kisi na nahi dekha hon 
+
+==================================================
+PHASE 20 — ACADEMY SETTINGS
+==================================================
+
+Admin:
+
+- Academy Name
+- Logo
+- Address
+- Phone
+- Email
+- WhatsApp Number
+- Currency
+- Academic Year
+- Fee Settings
+- Notification Settings
+
+Branding dynamically use ho:
+
+- Login
+- Dashboard
+- Student Portal
+- Receipts
+- Reports
+- Print
+- PDF
+- WhatsApp Messages
+
+Academy name hardcode nahi karna.
+change krne pr hr jaga change hona chahiye print se le kr WhatsApp output se lekr overall
+
+==================================================
+PHASE 21 — PREMIUM UI/UX
+==================================================
+
+Software professional SaaS product jaisa lagna chahiye.
+
+Create:
+
+- Modern Sidebar
+- Premium Dashboard
+- Responsive Navbar
+- Clean Typography
+- Professional Tables
+- Premium Cards
+- Charts
+- Modals
+- Confirmation Dialogs
+- Toast Notifications
+- Loading States
+- Skeleton Loaders
+- Empty States
+- Error States
+- Smooth Animations
+- Dark/Light Mode
+
+MOBILE RESPONSIVENESS FIRST PRIORITY HAI.
+
+Properly test:
+
+- Mobile
+- Tablet
+- Laptop
+- Desktop
+
+Desktop UI ko sirf shrink karke mobile UI nahi banana.
+
+theme boring nahi honi chahiye aur color combination bohot acha hona chahiye jo attract kre logo ko 
+
+==================================================
+PHASE 22 — SECURITY
+==================================================
+
+Implement:
+
+- JWT Authentication
+- bcrypt Password Hashing
+- Role-based Authorization
+- Protected Routes
+- Input Validation
+- Database Validation
+- Secure File Upload
+- API Error Handling
+- Unauthorized Access Protection
+
+Student A kabhi Student B ka:
+
+- Attendance
+- Result
+- Fee
+- Homework
+- Profile
+- Personal Information
+
+access nahi kar sakta.
+
+Backend level par enforce karo.
+
+==================================================
+PHASE 23 — TESTING
+==================================================
+
+Authentication:
+[ ] Admin Login
+[ ] Teacher Login
+[ ] Student Login
+[ ] Logout
+[ ] Protected Routes
+[ ] Role Permissions
+
+Students:
+[ ] Add
+[ ] Edit
+[ ] Delete
+[ ] Search
+[ ] Profile
+[ ] Activate/Deactivate
+
+Teachers:
+[ ] Add
+[ ] Edit
+[ ] Delete
+[ ] Assign Class
+[ ] Assign Subject
+
+Attendance:
+[ ] Mark
+[ ] Edit
+[ ] Percentage
+[ ] Student View
+[ ] Print
+[ ] PDF
+[ ] WhatsApp
+
+Results:
+[ ] Create Exam
+[ ] Add Marks
+[ ] Edit
+[ ] Publish
+[ ] Student View
+[ ] Print
+[ ] PDF
+[ ] WhatsApp
+
+Homework:
+[ ] Create
+[ ] Edit
+[ ] Delete
+[ ] Assign
+[ ] Student View
+[ ] Submission
+[ ] WhatsApp
+
+Study Material:
+[ ] Upload
+[ ] Edit
+[ ] Delete
+[ ] View
+[ ] Download
+
+Fees:
+[ ] Create Fee
+[ ] Payment
+[ ] Partial Payment
+[ ] Remaining Calculation
+[ ] Receipt
+[ ] Print
+[ ] PDF
+[ ] WhatsApp
+[ ] Payment History
+
+Reports:
+[ ] Student Report
+[ ] Attendance Report
+[ ] Fee Report
+[ ] Result Report
+[ ] Print
+[ ] PDF
+[ ] WhatsApp
+
+Notifications:
+[ ] Create
+[ ] Read/Unread
+[ ] Mark Read
+
+==================================================
+PHASE 24 — COMPLETE END-TO-END TEST
+==================================================
+
+Test complete flow:
+
+Admin creates class
+↓
+Admin creates subject
+↓
+Admin creates teacher
+↓
+Admin creates student
+↓
+Student account created
+↓
+Teacher assigned to class
+↓
+Teacher marks attendance
+↓
+Student logs in
+↓
+Student sees own attendance
+↓
+Teacher creates homework
+↓
+Student sees homework
+↓
+Teacher enters result
+↓
+Admin publishes result
+↓
+Student sees result
+↓
+Admin creates monthly fee
+↓
+Payment recorded
+↓
+Student sees fee history
+↓
+Admin uploads study material
+↓
+Student sees/downloads material
+↓
+Admin publishes announcement
+↓
+Student receives notification
+↓
+Admin prints report
+↓
+Admin downloads PDF
+↓
+Admin shares report/receipt on WhatsApp
+
+Everything must use real database data.
+
+==================================================
+PHASE 25 — DEPLOYMENT
+==================================================
+
+Frontend:
+- Netlify or Vercel
+
+Backend:
+- Render / Railway / suitable Node hosting
+
+Database Option 1:
+- MySQL hosting
+
+Database Option 2:
+- Supabase
+
+Production environment variables properly configure karo.
+
+==================================================
+FINAL DATABASE REQUIREMENT
+==================================================
+
+MongoDB ko project mein kahin bhi use nahi karna.
+
+Database ke sirf ye 2 supported options hon:
+
+1. MySQL
+2. Supabase PostgreSQL
+
+Application start/setup ke waqt database provider select karne ka clear option ho.
+
+Example:
+
+Choose Database:
+
+1. MySQL
+2. Supabase
+
+Selected provider ke according database configuration load ho.
+
+Core application logic ko database provider se separate rakho taake future mein database switch karna easy ho.
+
+==================================================
+IMPORTANT DEVELOPMENT RULES
+==================================================
+
+1. JavaScript only.
+2. TypeScript bilkul use nahi karna.
+3. MongoDB bilkul use nahi karna.
+4. MySQL aur Supabase dono support karne hain.
+5. Core features ke liye static/mock data use nahi karna.
+6. Important data sirf localStorage mein store nahi karna.
+7. Real persistent database use karna.
+8. Backend functionality skip nahi karni.
+9. Proper authentication aur authorization use karna.
+10. Mobile responsiveness FIRST PRIORITY hai.
+11. Har feature implement karne ke baad test karna hai.
+12. Existing functionality ko new features ke waqt break nahi karna.
+13. Reusable React components use karna.
+14. Reusable Print/PDF/WhatsApp services create karna.
+15. Har relevant document ke liye Print + PDF + WhatsApp options provide karna.
+16. Student data completely isolated hona chahiye.
+17. Admin complete academy manage kar sake.
+18. Teacher sirf assigned classes/students manage kare.
+19. Student sirf apna allowed data access kare.
+20. Application ko real production-ready SaaS product ki tarah build karo.
+
+FINAL IMPLEMENTATION ORDER:
+
+1. Project Setup
+2. Database Selection System
+3. MySQL/Supabase Database Setup
+4. Database Tables & Relationships
+5. Backend
+6. Authentication
+7. Admin Dashboard
+8. Students
+9. Teachers
+10. Classes & Subjects
+11. Attendance
+12. Results
+13. Homework
+14. Study Material
+15. Fees
+16. Student Portal
+17. Notifications
+18. Announcements
+19. Reports
+20. Print System
+21. PDF System
+22. WhatsApp Sharing System
+23. Academy Settings
+24. Premium UI/UX
+25. Security
+26. Complete Testing
+27. Deployment
+
+Har phase ko properly complete aur test karne ke baad next phase par move karo.
