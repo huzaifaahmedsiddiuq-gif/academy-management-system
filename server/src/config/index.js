@@ -11,10 +11,22 @@ const detectProvider = () => {
   return 'mysql';
 };
 
+const parseExpiresIn = (val) => {
+  if (!val) return '7d';
+  if (typeof val === 'string') {
+    const clean = val.replace(/['"]+/g, '').trim();
+    if (!clean) return '7d';
+    if (/^\d+$/.test(clean)) return parseInt(clean, 10);
+    return clean;
+  }
+  if (typeof val === 'number') return val;
+  return '7d';
+};
+
 export const config = {
   port: process.env.PORT || 5000,
-  jwtSecret: process.env.JWT_SECRET || 'academy_management_jwt_super_secret_2025_prod',
-  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
+  jwtSecret: (process.env.JWT_SECRET || 'academy_management_jwt_super_secret_2025_prod').trim(),
+  jwtExpiresIn: parseExpiresIn(process.env.JWT_EXPIRES_IN),
   databaseProvider: detectProvider(),
 
   // MySQL Configuration

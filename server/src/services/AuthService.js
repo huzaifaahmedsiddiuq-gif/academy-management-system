@@ -59,7 +59,7 @@ export class AuthService {
     };
 
     const token = jwt.sign(tokenPayload, config.jwtSecret, {
-      expiresIn: config.jwtExpiresIn
+      expiresIn: config.jwtExpiresIn || '7d'
     });
 
     const { password: _, ...userWithoutPassword } = user;
