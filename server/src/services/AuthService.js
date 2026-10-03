@@ -58,9 +58,16 @@ export class AuthService {
       teacherId: extraData.teacherId || null
     };
 
-    const token = jwt.sign(tokenPayload, config.jwtSecret, {
-      expiresIn: config.jwtExpiresIn || '7d'
-    });
+    let token;
+    try {
+      token = jwt.sign(tokenPayload, config.jwtSecret, {
+        expiresIn: config.jwtExpiresIn || '7d'
+      });
+    } catch {
+      token = jwt.sign(tokenPayload, config.jwtSecret, {
+        expiresIn: '7d'
+      });
+    }
 
     const { password: _, ...userWithoutPassword } = user;
 

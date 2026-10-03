@@ -1,5 +1,11 @@
+
+
 {
   "rewrites": [
+    {
+      "source": "/api/:match*",
+      "destination": "https://academy-backend-pink.vercel.app/api/:match*"
+    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
