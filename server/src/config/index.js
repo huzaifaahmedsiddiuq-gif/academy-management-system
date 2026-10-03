@@ -1,11 +1,21 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+const detectProvider = () => {
+  if (process.env.DATABASE_PROVIDER) {
+    return process.env.DATABASE_PROVIDER.toLowerCase();
+  }
+  if (process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.SUPABASE_URL) {
+    return 'supabase';
+  }
+  return 'mysql';
+};
+
 export const config = {
   port: process.env.PORT || 5000,
   jwtSecret: process.env.JWT_SECRET || 'academy_management_jwt_super_secret_2025_prod',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
-  databaseProvider: (process.env.DATABASE_PROVIDER || 'mysql').toLowerCase(), // 'mysql' or 'supabase'
+  databaseProvider: detectProvider(),
 
   // MySQL Configuration
   mysql: {
@@ -22,10 +32,10 @@ export const config = {
 
   // Supabase Configuration
   supabase: {
-    url: process.env.SUPABASE_URL || '',
+    url: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '',
     serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-    anonKey: process.env.SUPABASE_ANON_KEY || '',
-    databaseUrl: process.env.DATABASE_URL || ''
+    anonKey: process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+    databaseUrl: process.env.DATABASE_URL || process.env.POSTGRES_URL || ''
   },
 
   clientUrl: process.env.CLIENT_URL || 'http://localhost:5173'
