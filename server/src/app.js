@@ -31,6 +31,15 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Root health endpoint
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    message: '🏫 Academy Management System Backend API is active',
+    health: '/api/health'
+  });
+});
+
 // Health and DB Provider status
 app.get('/api/health', async (req, res) => {
   const provider = db.getProvider();
