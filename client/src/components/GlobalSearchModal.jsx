@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, X, Users, GraduationCap, School, CreditCard, ChevronRight, AlertCircle } from 'lucide-react';
+import { Search, X, Users, GraduationCap, School, CreditCard, ChevronRight, AlertCircle, ArrowUpDown } from 'lucide-react';
 import api from '../services/api';
 
 export const GlobalSearchModal = ({ isOpen, onClose }) => {
@@ -9,6 +9,7 @@ export const GlobalSearchModal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (!query || query.trim().length < 2) {
@@ -38,29 +39,33 @@ export const GlobalSearchModal = ({ isOpen, onClose }) => {
     return () => clearTimeout(timer);
   }, [query]);
 
-  // Reset state when modal closes
+  // Reset state and focus input when modal opens / closes
   useEffect(() => {
     if (!isOpen) {
       setQuery('');
       setResults({ students: [], teachers: [], classes: [], fees: [] });
       setError(null);
+    } else {
+      // Focus search input on open
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+        inputRef.current?.select();
+      }, 50);
+      return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
-  // Global hotkey Ctrl+K / Cmd+K
+  // Handle ESC key to close modal
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        onClose(); // toggle
-      }
       if (e.key === 'Escape' && isOpen) {
+        e.preventDefault();
         onClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -93,10 +98,10 @@ export const GlobalSearchModal = ({ isOpen, onClose }) => {
         <div className="flex items-center px-4 py-3.5 border-b border-slate-200 dark:border-slate-800">
           <Search className="w-5 h-5 text-slate-400 mr-3 flex-shrink-0" />
           <input
+            ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            autoFocus
             placeholder="Student name, roll no, teacher, class, fee status..."
             className="w-full bg-transparent text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
           />
@@ -280,6 +285,23 @@ export const GlobalSearchModal = ({ isOpen, onClose }) => {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Modal Footer with Shortcuts */}
+        <div className="px-4 py-2.5 bg-slate-50 dark:bg-surface-950/60 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+          <div className="flex items-center gap-1.5">
+            <span>Press</span>
+            <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-surface-800 border border-slate-200 dark:border-slate-700 rounded shadow-xs text-slate-600 dark:text-slate-300">
+              ESC
+            </kbd>
+            <span>to close</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-surface-800 border border-slate-200 dark:border-slate-700 rounded shadow-xs text-slate-600 dark:text-slate-300">
+              Ctrl + K
+            </kbd>
+            <span>to toggle</span>
+          </div>
         </div>
       </div>
     </div>

@@ -52,12 +52,13 @@ export const Navbar = ({ onOpenSidebar, onOpenSearch }) => {
         {role === 'admin' && (
           <button
             onClick={onOpenSearch}
-            className="hidden sm:flex items-center gap-2.5 px-3 py-1.5 text-xs text-slate-400 bg-slate-100 dark:bg-surface-800 rounded-xl hover:bg-slate-200 dark:hover:bg-surface-700 transition-colors border border-transparent dark:border-slate-700"
+            title="Press Ctrl + K to search"
+            className="hidden sm:flex items-center gap-2.5 px-3 py-1.5 text-xs text-slate-400 bg-slate-100 dark:bg-surface-800 rounded-xl hover:bg-slate-200 dark:hover:bg-surface-700 transition-colors border border-transparent dark:border-slate-700 cursor-pointer"
           >
             <Search className="w-3.5 h-3.5" />
             <span>Search anything...</span>
-            <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-surface-900 border border-slate-200 dark:border-slate-700 rounded shadow-sm">
-              ⌘K
+            <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-surface-900 border border-slate-200 dark:border-slate-700 rounded shadow-sm text-slate-500 dark:text-slate-300 font-semibold">
+              Ctrl + K
             </kbd>
           </button>
         )}
@@ -69,6 +70,7 @@ export const Navbar = ({ onOpenSidebar, onOpenSearch }) => {
         {role === 'admin' && (
           <button
             onClick={onOpenSearch}
+            title="Search (Ctrl + K)"
             className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-800 rounded-xl sm:hidden"
           >
             <Search className="w-5 h-5" />

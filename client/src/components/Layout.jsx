@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Navbar } from './Navbar';
 import { GlobalSearchModal } from './GlobalSearchModal';
+import { useAuth } from '../context/AuthContext';
 
 export const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const { role } = useAuth();
+
+  // Keyboard shortcut: Ctrl + K (or Cmd + K) opens / toggles search for admin
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        if (role === 'admin') {
+          e.preventDefault();
+          setSearchOpen((prev) => !prev);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [role]);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-surface-950 flex">
