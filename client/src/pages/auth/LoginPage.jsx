@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { School, Lock, User, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { School, Lock, User, ArrowRight, Eye, EyeOff, Sparkles } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useAcademy } from '../../context/AcademyContext';
 import { useToast } from '../../context/ToastContext';
 
-// Demo credentials — update these to match your live demo accounts
+// Demo credentials with custom role-based theme colors
 const DEMO_ROLES = [
-  { label: 'Admin',   username: 'admin',    password: 'admin123' },
-  { label: 'Teacher', username: 't_rashid', password: 'teacher123' },
-  { label: 'Student', username: 's_ahmed',  password: 'student123' },
+  {
+    label: 'Admin',
+    username: 'admin',
+    password: 'admin123',
+    activeClass: 'border border-indigo-200/90 bg-[#1a223e] text-white shadow-sm shadow-indigo-500/20',
+    inactiveClass: 'border border-slate-700/80 bg-surface-800 text-slate-300 hover:border-indigo-400/50 hover:bg-indigo-950/30 hover:text-white',
+  },
+  {
+    label: 'Teacher',
+    username: 't_rashid',
+    password: 'teacher123',
+    activeClass: 'border border-emerald-400 bg-[#0d2826] text-emerald-200 shadow-sm shadow-emerald-500/20',
+    inactiveClass: 'border border-slate-700/80 bg-surface-800 text-slate-300 hover:border-emerald-400/50 hover:bg-emerald-950/30 hover:text-white',
+  },
+  {
+    label: 'Student',
+    username: 's_ahmed',
+    password: 'student123',
+    activeClass: 'border border-purple-400 bg-[#22163b] text-purple-200 shadow-sm shadow-purple-500/20',
+    inactiveClass: 'border border-slate-700/80 bg-surface-800 text-slate-300 hover:border-purple-400/50 hover:bg-purple-950/30 hover:text-white',
+  },
 ];
 
 export const LoginPage = () => {
@@ -144,16 +162,15 @@ export const LoginPage = () => {
           </form>
 
           {/* ── Quick Demo Access ── */}
-          <div className="mt-6 pt-5 border-t border-slate-800">
+          <div className="mt-8 pt-6 border-t border-slate-800/80">
             <div className="flex items-center gap-2 mb-3">
-              <span className="flex-1 h-px bg-slate-800" />
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap">
-                Quick Demo Access
+              <Sparkles className="w-4 h-4 text-indigo-400" />
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                QUICK DEMO ACCESS:
               </span>
-              <span className="flex-1 h-px bg-slate-800" />
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2.5">
               {DEMO_ROLES.map((role) => {
                 const isActive = activeDemo === role.label;
                 return (
@@ -161,10 +178,8 @@ export const LoginPage = () => {
                     key={role.label}
                     type="button"
                     onClick={() => fillDemo(role)}
-                    className={`py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 border ${
-                      isActive
-                        ? 'bg-brand-600 border-brand-500 text-white shadow-lg shadow-brand-500/30 scale-[1.04]'
-                        : 'bg-surface-800 border-slate-700 text-slate-400 hover:border-slate-500 hover:text-slate-200 hover:bg-surface-700'
+                    className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all border ${
+                      isActive ? role.activeClass : role.inactiveClass
                     }`}
                   >
                     {role.label}
@@ -172,10 +187,6 @@ export const LoginPage = () => {
                 );
               })}
             </div>
-
-            <p className="text-[10px] text-slate-600 text-center mt-2.5">
-              Click a role to auto-fill credentials, then press Sign In
-            </p>
           </div>
         </div>
 

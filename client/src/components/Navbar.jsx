@@ -52,13 +52,13 @@ export const Navbar = ({ onOpenSidebar, onOpenSearch }) => {
         {role === 'admin' && (
           <button
             onClick={onOpenSearch}
-            title="Press Ctrl + K to search"
+            title="Search (⌘K or Ctrl + K)"
             className="hidden sm:flex items-center gap-2.5 px-3 py-1.5 text-xs text-slate-400 bg-slate-100 dark:bg-surface-800 rounded-xl hover:bg-slate-200 dark:hover:bg-surface-700 transition-colors border border-transparent dark:border-slate-700 cursor-pointer"
           >
             <Search className="w-3.5 h-3.5" />
             <span>Search anything...</span>
-            <kbd className="px-2 py-0.5 text-[10px] font-mono bg-slate-700 dark:bg-slate-600 rounded-md text-white font-semibold tracking-wide">
-              Ctrl + K
+            <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-surface-900 border border-slate-200 dark:border-slate-700 rounded shadow-sm text-slate-400">
+              ⌘K
             </kbd>
           </button>
         )}
