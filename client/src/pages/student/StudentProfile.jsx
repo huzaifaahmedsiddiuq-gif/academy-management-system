@@ -11,12 +11,15 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 export const StudentProfile = () => {
-  const { user } = useAuth();
+  const { user, studentId: authStudentId } = useAuth();
   const { academy } = useAcademy();
   const toast = useToast();
 
-  const [loading, setLoading] = useState(true);
-  const [profileData, setProfileData] = useState(null);
+  const studentId = authStudentId || user?.studentId || user?.student?.id || user?.profile?.id || (user?.role === 'student' ? user?.id : null);
+  const cachedStudent = user?.student || user?.profile || null;
+
+  const [profileData, setProfileData] = useState(() => cachedStudent ? { student: cachedStudent } : null);
+  const [loading, setLoading] = useState(() => !cachedStudent);
 
   // Change Password State
   const [oldPassword, setOldPassword] = useState('');
@@ -28,12 +31,13 @@ export const StudentProfile = () => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [shareData, setShareData] = useState(null);
 
-  const studentId = user?.studentId || user?.student?.id;
-
   const fetchProfile = async () => {
-    if (!studentId) return;
+    if (!studentId) {
+      setLoading(false);
+      return;
+    }
     try {
-      setLoading(true);
+      if (!profileData) setLoading(true);
       const res = await api.get(`/students/${studentId}`);
       if (res.data?.success) {
         setProfileData(res.data);
@@ -138,7 +142,7 @@ export const StudentProfile = () => {
     setShareModalOpen(true);
   };
 
-  if (loading) return <LoadingSkeleton count={3} type="card" />;
+  if (loading && !profileData) return <LoadingSkeleton count={3} type="card" />;
 
   const student = profileData?.student || user?.student || {};
 

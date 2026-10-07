@@ -12,7 +12,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 export const StudentAttendance = () => {
-  const { user } = useAuth();
+  const { user, studentId: authStudentId } = useAuth();
   const { academy } = useAcademy();
   const toast = useToast();
 
@@ -24,10 +24,13 @@ export const StudentAttendance = () => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [shareData, setShareData] = useState(null);
 
-  const studentId = user?.studentId || user?.student?.id;
+  const studentId = authStudentId || user?.studentId || user?.student?.id || user?.profile?.id || (user?.role === 'student' ? user?.id : null);
 
   const fetchAttendance = async () => {
-    if (!studentId) return;
+    if (!studentId) {
+      setLoading(false);
+      return;
+    }
     try {
       setLoading(true);
       const res = await api.get(`/attendance/student/${studentId}?month=${selectedMonth}`);

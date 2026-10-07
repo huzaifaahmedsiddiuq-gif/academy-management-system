@@ -49,41 +49,33 @@ export class StudentService {
 
     const student = studentRes.rows[0];
 
-    // Attendance stats
-    const attRes = await db.query(`
-      SELECT 
-        COUNT(*) as total_days,
-        SUM(CASE WHEN status = 'present' THEN 1 ELSE 0 END) as present_days,
-        SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) as absent_days,
-        SUM(CASE WHEN status = 'leave' THEN 1 ELSE 0 END) as leave_days
-      FROM attendance
-      WHERE student_id = ?
-    `, [id]);
+    // Fetch Attendance stats, Fees, Results, and Payments in parallel
+    const [attRes, feeRes, resultsRes, paymentsRes] = await Promise.all([
+      db.query(`
+        SELECT 
+          COUNT(*) as total_days,
+          SUM(CASE WHEN status = 'present' THEN 1 ELSE 0 END) as present_days,
+          SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) as absent_days,
+          SUM(CASE WHEN status = 'leave' THEN 1 ELSE 0 END) as leave_days
+        FROM attendance
+        WHERE student_id = ?
+      `, [id]),
+      db.query(`SELECT * FROM fees WHERE student_id = ? ORDER BY id DESC`, [id]),
+      db.query(`
+        SELECT r.*, e.title as exam_title, e.exam_date, sub.name as subject_name
+        FROM results r
+        JOIN exams e ON r.exam_id = e.id
+        JOIN subjects sub ON r.subject_id = sub.id
+        WHERE r.student_id = ? AND e.is_published = TRUE
+        ORDER BY e.exam_date DESC
+      `, [id]),
+      db.query(`SELECT * FROM payments WHERE student_id = ? ORDER BY payment_date DESC`, [id])
+    ]);
 
     const attStats = attRes.rows[0] || {};
     const totalDays = Number(attStats.total_days || 0);
     const presentDays = Number(attStats.present_days || 0);
     const attPercentage = totalDays > 0 ? ((presentDays / totalDays) * 100).toFixed(1) : 100;
-
-    // Fees summary
-    const feeRes = await db.query(`
-      SELECT * FROM fees WHERE student_id = ? ORDER BY id DESC
-    `, [id]);
-
-    // Results summary
-    const resultsRes = await db.query(`
-      SELECT r.*, e.title as exam_title, e.exam_date, sub.name as subject_name
-      FROM results r
-      JOIN exams e ON r.exam_id = e.id
-      JOIN subjects sub ON r.subject_id = sub.id
-      WHERE r.student_id = ? AND e.is_published = TRUE
-      ORDER BY e.exam_date DESC
-    `, [id]);
-
-    // Payments summary
-    const paymentsRes = await db.query(`
-      SELECT * FROM payments WHERE student_id = ? ORDER BY payment_date DESC
-    `, [id]);
 
     return {
       student,

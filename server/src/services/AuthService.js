@@ -88,6 +88,7 @@ export class AuthService {
 
     const user = res.rows[0];
     let profile = null;
+    let extraData = {};
 
     if (user.role === 'student') {
       const sRes = await db.query(`
@@ -97,12 +98,21 @@ export class AuthService {
         WHERE s.user_id = ? LIMIT 1
       `, [user.id]);
       profile = sRes.rows[0] || null;
+      if (profile) {
+        extraData.student = profile;
+        extraData.studentId = profile.id;
+        extraData.classId = profile.class_id;
+      }
     } else if (user.role === 'teacher') {
       const tRes = await db.query('SELECT * FROM teachers WHERE user_id = ? LIMIT 1', [user.id]);
       profile = tRes.rows[0] || null;
+      if (profile) {
+        extraData.teacher = profile;
+        extraData.teacherId = profile.id;
+      }
     }
 
-    return { ...user, profile };
+    return { ...user, profile, ...extraData };
   }
 
   static async changePassword(userId, currentPassword, newPassword) {

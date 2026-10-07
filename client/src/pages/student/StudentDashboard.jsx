@@ -12,18 +12,24 @@ import { useToast } from '../../context/ToastContext';
 import api from '../../services/api';
 
 export const StudentDashboard = () => {
-  const { user } = useAuth();
+  const { user, studentId: authStudentId } = useAuth();
   const { academy } = useAcademy();
-  const [studentData, setStudentData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const toast = useToast();
 
-  const studentId = user?.studentId || user?.student?.id;
+  const studentId = authStudentId || user?.studentId || user?.student?.id || user?.profile?.id || (user?.role === 'student' ? user?.id : null);
+  const cachedStudent = user?.student || user?.profile || null;
+
+  // Optimistic initial state from cached user data for instant 0ms load
+  const [studentData, setStudentData] = useState(() => cachedStudent ? { student: cachedStudent } : null);
+  const [loading, setLoading] = useState(() => !cachedStudent);
 
   const fetchStudentProfile = async () => {
-    if (!studentId) return;
+    if (!studentId) {
+      setLoading(false);
+      return;
+    }
     try {
-      setLoading(true);
+      if (!studentData) setLoading(true);
       const res = await api.get(`/students/${studentId}`);
       if (res.data?.success) {
         setStudentData(res.data);
@@ -39,7 +45,7 @@ export const StudentDashboard = () => {
     fetchStudentProfile();
   }, [studentId]);
 
-  if (loading) {
+  if (loading && !studentData) {
     return <LoadingSkeleton count={4} type="card" />;
   }
 
