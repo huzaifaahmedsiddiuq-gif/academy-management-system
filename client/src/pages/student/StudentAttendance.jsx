@@ -8,6 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useAcademy } from '../../context/AcademyContext';
 import { useToast } from '../../context/ToastContext';
 import api from '../../services/api';
+import { swrFetch } from '../../services/cache';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -31,17 +32,23 @@ export const StudentAttendance = () => {
       setLoading(false);
       return;
     }
-    try {
-      setLoading(true);
-      const res = await api.get(`/attendance/student/${studentId}?month=${selectedMonth}`);
-      if (res.data?.success) {
-        setAttendanceData(res.data);
+    await swrFetch(
+      `student_attendance_${studentId}_${selectedMonth}`,
+      async () => {
+        const res = await api.get(`/attendance/student/${studentId}?month=${selectedMonth}`);
+        if (!res.data?.success) throw new Error('Failed');
+        return res.data;
+      },
+      (data) => {
+        setAttendanceData(data);
+        setLoading(false);
+      },
+      () => {
+        toast.error('Failed to load attendance records');
+        setLoading(false);
       }
-    } catch (e) {
-      toast.error('Failed to load attendance records');
-    } finally {
-      setLoading(false);
-    }
+    );
+    setLoading(false);
   };
 
   useEffect(() => {

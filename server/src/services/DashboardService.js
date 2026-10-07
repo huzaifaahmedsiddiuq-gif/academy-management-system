@@ -155,38 +155,63 @@ export class DashboardService {
       console.error('Error fetching upcoming exams:', e.message);
     }
 
-    // 9. Monthly Fee Collection Chart Data (Supports Supabase PostgreSQL & MySQL)
+    // 9. Monthly Fee Collection Chart Data — Full 12-month scaffold for current year
     let monthlyFeeChart = [];
     try {
+      const currentYear = new Date().getFullYear(); // 2026
+      const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      // Build a zero-filled scaffold for all 12 months of the current year
+      const scaffold = MONTH_NAMES.map((mon, idx) => ({
+        month_label: `${mon} ${currentYear}`,
+        short_month: mon,
+        year_val: currentYear,
+        month_num: idx + 1,
+        collected: 0,
+        payment_count: 0
+      }));
+
       let feeChartRes;
       if (isSupabase) {
         feeChartRes = await db.query(`
           SELECT 
-            TO_CHAR(payment_date, 'Mon YYYY') as month_label,
             TO_CHAR(payment_date, 'Mon') as short_month,
-            EXTRACT(YEAR FROM payment_date)::integer as year_val,
+            EXTRACT(MONTH FROM payment_date)::integer as month_num,
             SUM(amount) as collected,
             COUNT(id) as payment_count
           FROM payments
-          GROUP BY TO_CHAR(payment_date, 'Mon YYYY'), TO_CHAR(payment_date, 'Mon'), EXTRACT(YEAR FROM payment_date), DATE_TRUNC('month', payment_date)
-          ORDER BY DATE_TRUNC('month', payment_date) ASC
-          LIMIT 12
+          WHERE EXTRACT(YEAR FROM payment_date) = ${currentYear}
+          GROUP BY TO_CHAR(payment_date, 'Mon'), EXTRACT(MONTH FROM payment_date)
+          ORDER BY EXTRACT(MONTH FROM payment_date) ASC
         `);
       } else {
         feeChartRes = await db.query(`
           SELECT 
-            DATE_FORMAT(payment_date, '%b %Y') as month_label,
             DATE_FORMAT(payment_date, '%b') as short_month,
-            YEAR(payment_date) as year_val,
+            MONTH(payment_date) as month_num,
             SUM(amount) as collected,
             COUNT(id) as payment_count
           FROM payments
-          GROUP BY DATE_FORMAT(payment_date, '%b %Y'), DATE_FORMAT(payment_date, '%b'), YEAR(payment_date), MONTH(payment_date)
-          ORDER BY YEAR(payment_date) ASC, MONTH(payment_date) ASC
-          LIMIT 12
+          WHERE YEAR(payment_date) = ${currentYear}
+          GROUP BY DATE_FORMAT(payment_date, '%b'), MONTH(payment_date)
+          ORDER BY MONTH(payment_date) ASC
         `);
       }
-      monthlyFeeChart = feeChartRes.rows || [];
+
+      // Merge real data into the scaffold
+      const realRows = feeChartRes.rows || [];
+      realRows.forEach(row => {
+        const mNum = Number(row.month_num);
+        if (mNum >= 1 && mNum <= 12) {
+          scaffold[mNum - 1].collected = Number(row.collected || 0);
+          scaffold[mNum - 1].payment_count = Number(row.payment_count || 0);
+        }
+      });
+
+      // Only return up to the current month (don't show future months with 0)
+      const currentMonth = new Date().getMonth() + 1; // 1-indexed
+      monthlyFeeChart = scaffold.slice(0, currentMonth);
+
     } catch (e) {
       console.error('Error fetching fee chart data:', e.message);
     }

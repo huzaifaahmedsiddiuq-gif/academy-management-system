@@ -7,6 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useAcademy } from '../../context/AcademyContext';
 import { useToast } from '../../context/ToastContext';
 import api from '../../services/api';
+import { swrFetch } from '../../services/cache';
 
 export const StudentHomework = () => {
   const { user } = useAuth();
@@ -29,17 +30,23 @@ export const StudentHomework = () => {
   const [shareData, setShareData] = useState(null);
 
   const fetchHomework = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get('/homework');
-      if (res.data?.success) {
-        setHomeworkList(res.data.homework || []);
+    await swrFetch(
+      'student_homework',
+      async () => {
+        const res = await api.get('/homework');
+        if (!res.data?.success) throw new Error('Failed');
+        return res.data.homework || [];
+      },
+      (data) => {
+        setHomeworkList(data);
+        setLoading(false);
+      },
+      () => {
+        toast.error('Failed to load homework assignments');
+        setLoading(false);
       }
-    } catch (e) {
-      toast.error('Failed to load homework assignments');
-    } finally {
-      setLoading(false);
-    }
+    );
+    setLoading(false);
   };
 
   useEffect(() => {

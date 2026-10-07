@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   CalendarCheck, Award, BookOpen, CreditCard, Bell, BookMarked,
-  ArrowRight, CheckCircle2, AlertCircle, Clock, Sparkles
+  ArrowRight, CheckCircle2, AlertCircle, Clock, Sparkles, RefreshCw
 } from 'lucide-react';
 import { StatCard } from '../../components/StatCard';
 import { LoadingSkeleton } from '../../components/LoadingSkeleton';
@@ -10,6 +10,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useAcademy } from '../../context/AcademyContext';
 import { useToast } from '../../context/ToastContext';
 import api from '../../services/api';
+import { swrFetch } from '../../services/cache';
 
 export const StudentDashboard = () => {
   const { user, studentId: authStudentId } = useAuth();
@@ -22,23 +23,40 @@ export const StudentDashboard = () => {
   // Optimistic initial state from cached user data for instant 0ms load
   const [studentData, setStudentData] = useState(() => cachedStudent ? { student: cachedStudent } : null);
   const [loading, setLoading] = useState(() => !cachedStudent);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const fetchStudentProfile = async () => {
+  const fetchStudentProfile = async (isManual = false) => {
     if (!studentId) {
       setLoading(false);
       return;
     }
-    try {
-      if (!studentData) setLoading(true);
-      const res = await api.get(`/students/${studentId}`);
-      if (res.data?.success) {
-        setStudentData(res.data);
+    if (isManual) setRefreshing(true);
+    else if (!studentData) setLoading(true);
+
+    await swrFetch(
+      `student_dashboard_${studentId}`,
+      async () => {
+        const res = await api.get(`/students/${studentId}`);
+        if (!res.data?.success) throw new Error('Failed to load');
+        return res.data;
+      },
+      (data, isStale) => {
+        setStudentData(data);
+        if (!isStale) {
+          setLoading(false);
+          setRefreshing(false);
+        }
+      },
+      (err) => {
+        toast.error('Failed to load student portal dashboard');
+        setLoading(false);
+        setRefreshing(false);
       }
-    } catch (e) {
-      toast.error('Failed to load student portal dashboard');
-    } finally {
-      setLoading(false);
-    }
+    );
+
+    // Ensure loading is cleared even if only cached data was served
+    setLoading(false);
+    setRefreshing(false);
   };
 
   useEffect(() => {
@@ -92,6 +110,13 @@ export const StudentDashboard = () => {
             <span className="text-[10px] uppercase font-bold text-brand-300 block">Attendance Score</span>
             <span className="text-2xl font-extrabold text-emerald-400 mt-0.5">{attendance.percentage}%</span>
           </div>
+          <button
+            onClick={() => fetchStudentProfile(true)}
+            title="Refresh data"
+            className={`p-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-colors border border-white/10 ${refreshing ? 'animate-spin' : ''}`}
+          >
+            <RefreshCw className="w-4 h-4 text-white" />
+          </button>
         </div>
       </div>
 

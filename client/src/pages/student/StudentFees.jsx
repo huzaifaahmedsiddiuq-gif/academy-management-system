@@ -8,6 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useAcademy } from '../../context/AcademyContext';
 import { useToast } from '../../context/ToastContext';
 import api from '../../services/api';
+import { swrFetch } from '../../services/cache';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -33,17 +34,23 @@ export const StudentFees = () => {
       setLoading(false);
       return;
     }
-    try {
-      setLoading(true);
-      const res = await api.get(`/fees/student/${studentId}`);
-      if (res.data?.success) {
-        setFees(res.data.fees || []);
+    await swrFetch(
+      `student_fees_${studentId}`,
+      async () => {
+        const res = await api.get(`/fees/student/${studentId}`);
+        if (!res.data?.success) throw new Error('Failed');
+        return res.data.fees || [];
+      },
+      (data) => {
+        setFees(data);
+        setLoading(false);
+      },
+      () => {
+        toast.error('Failed to load fee statement');
+        setLoading(false);
       }
-    } catch (e) {
-      toast.error('Failed to load fee statement');
-    } finally {
-      setLoading(false);
-    }
+    );
+    setLoading(false);
   };
 
   useEffect(() => {

@@ -8,6 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useAcademy } from '../../context/AcademyContext';
 import { useToast } from '../../context/ToastContext';
 import api from '../../services/api';
+import { swrFetch } from '../../services/cache';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -31,17 +32,23 @@ export const StudentResults = () => {
       setLoading(false);
       return;
     }
-    try {
-      setLoading(true);
-      const res = await api.get(`/results/student/${studentId}`);
-      if (res.data?.success) {
-        setResults(res.data.results || []);
+    await swrFetch(
+      `student_results_${studentId}`,
+      async () => {
+        const res = await api.get(`/results/student/${studentId}`);
+        if (!res.data?.success) throw new Error('Failed');
+        return res.data.results || [];
+      },
+      (data) => {
+        setResults(data);
+        setLoading(false);
+      },
+      () => {
+        toast.error('Failed to load exam results');
+        setLoading(false);
       }
-    } catch (e) {
-      toast.error('Failed to load exam results');
-    } finally {
-      setLoading(false);
-    }
+    );
+    setLoading(false);
   };
 
   useEffect(() => {

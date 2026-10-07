@@ -7,6 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useAcademy } from '../../context/AcademyContext';
 import { useToast } from '../../context/ToastContext';
 import api from '../../services/api';
+import { swrFetch } from '../../services/cache';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -36,17 +37,23 @@ export const StudentProfile = () => {
       setLoading(false);
       return;
     }
-    try {
-      if (!profileData) setLoading(true);
-      const res = await api.get(`/students/${studentId}`);
-      if (res.data?.success) {
-        setProfileData(res.data);
+    await swrFetch(
+      `student_profile_${studentId}`,
+      async () => {
+        const res = await api.get(`/students/${studentId}`);
+        if (!res.data?.success) throw new Error('Failed');
+        return res.data;
+      },
+      (data) => {
+        setProfileData(data);
+        setLoading(false);
+      },
+      () => {
+        toast.error('Failed to load student profile');
+        setLoading(false);
       }
-    } catch (e) {
-      toast.error('Failed to load student profile');
-    } finally {
-      setLoading(false);
-    }
+    );
+    setLoading(false);
   };
 
   useEffect(() => {
