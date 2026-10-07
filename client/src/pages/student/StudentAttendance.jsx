@@ -108,7 +108,7 @@ export const StudentAttendance = () => {
       {/* Print Official Header */}
       <PrintHeader
         title="Student Attendance Report"
-        subtitle={`Academic Session: ${academy.academic_year || '2025-2026'} | Month: ${selectedMonth}`}
+        subtitle={`Academic Session: ${academy.academic_year || '2026'} | Month: ${selectedMonth}`}
       />
 
       {/* Screen Page Header */}

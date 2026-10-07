@@ -17,7 +17,7 @@ export class SettingsService {
       email: 'admissions@apexhorizon.edu.pk',
       whatsapp_number: '923009876543',
       currency_symbol: 'Rs.',
-      academic_year: '2025-2026',
+      academic_year: '2026',
       theme_color: '#4f46e5'
     };
   }
@@ -38,7 +38,7 @@ export class SettingsService {
         data.email || '',
         data.whatsapp_number || '',
         data.currency_symbol || 'Rs.',
-        data.academic_year || '2025-2026',
+        data.academic_year || '2026',
         data.theme_color || '#4f46e5'
       ]);
     } else {

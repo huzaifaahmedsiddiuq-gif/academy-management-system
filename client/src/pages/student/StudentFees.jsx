@@ -121,7 +121,7 @@ export const StudentFees = () => {
     <div className="space-y-6 animate-in fade-in">
       <PrintHeader
         title="Student Fee Statement"
-        subtitle={`Voucher Ledger & Payment History • ${academy.academic_year || '2025-2026'}`}
+        subtitle={`Voucher Ledger & Payment History • ${academy.academic_year || '2026'}`}
       />
 
       {/* Screen Header */}

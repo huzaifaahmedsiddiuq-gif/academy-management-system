@@ -136,7 +136,7 @@ export const StudentResults = () => {
     <div className="space-y-6 animate-in fade-in">
       <PrintHeader
         title="Official Academic Transcript"
-        subtitle={`Student Examination Performance Sheet • ${academy.academic_year || '2025-2026'}`}
+        subtitle={`Student Examination Performance Sheet • ${academy.academic_year || '2026'}`}
       />
 
       {/* Screen Page Header */}

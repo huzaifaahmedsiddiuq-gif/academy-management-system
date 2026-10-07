@@ -44,10 +44,10 @@ export const config = {
 
   // Supabase Configuration
   supabase: {
-    url: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-    anonKey: process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-    databaseUrl: process.env.DATABASE_URL || process.env.POSTGRES_URL || ''
+    url: (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '').trim(),
+    serviceRoleKey: (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim(),
+    anonKey: (process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '').trim(),
+    databaseUrl: (process.env.DATABASE_URL || process.env.POSTGRES_URL || '').trim()
   },
 
   clientUrl: process.env.CLIENT_URL || 'http://localhost:5173'

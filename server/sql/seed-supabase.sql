@@ -5,7 +5,7 @@
 
 -- 1. Academy Settings
 INSERT INTO academy_settings (id, academy_name, tagline, logo_url, address, phone, email, whatsapp_number, currency_symbol, academic_year, theme_color)
-VALUES (1, 'Apex Horizon Academy', 'Inspiring Minds, Building Leaders & Shaping Futures', '', 'Sector 11-A, University Road, Karachi, Pakistan', '+92 300 9876543', 'admissions@apexhorizon.edu.pk', '923009876543', 'Rs.', '2025-2026', '#4f46e5')
+VALUES (1, 'Apex Horizon Academy', 'Inspiring Minds, Building Leaders & Shaping Futures', '', 'Sector 11-A, University Road, Karachi, Pakistan', '+92 300 9876543', 'admissions@apexhorizon.edu.pk', '923009876543', 'Rs.', '2026', '#4f46e5')
 ON CONFLICT (id) DO NOTHING;
 
 -- 2. Users (Admin, Teachers, Students)

@@ -13,7 +13,7 @@ export const AcademyProvider = ({ children }) => {
     email: 'info@apexhorizon.edu.pk',
     whatsapp_number: '923009876543',
     currency_symbol: 'Rs.',
-    academic_year: '2025-2026',
+    academic_year: '2026',
     theme_color: '#4f46e5'
   });
   const [loading, setLoading] = useState(true);

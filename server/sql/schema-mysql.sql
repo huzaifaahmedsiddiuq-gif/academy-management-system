@@ -39,7 +39,7 @@ CREATE TABLE `academy_settings` (
   `email` VARCHAR(100) DEFAULT 'info@nextgenacademy.edu',
   `whatsapp_number` VARCHAR(50) DEFAULT '923001234567',
   `currency_symbol` VARCHAR(20) DEFAULT 'Rs.',
-  `academic_year` VARCHAR(50) DEFAULT '2025-2026',
+  `academic_year` VARCHAR(50) DEFAULT '2026',
   `theme_color` VARCHAR(30) DEFAULT '#6366f1',
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;

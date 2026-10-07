@@ -136,7 +136,7 @@ export const SettingsPage = () => {
               name="academic_year"
               value={form.academic_year}
               onChange={handleChange}
-              placeholder="2025-2026"
+              placeholder="2026"
               className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-surface-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none font-bold"
             />
           </div>

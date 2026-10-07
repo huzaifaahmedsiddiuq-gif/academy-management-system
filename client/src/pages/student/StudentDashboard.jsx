@@ -117,7 +117,7 @@ export const StudentDashboard = () => {
 
         <StatCard
           title="Academic Session"
-          value={academy.academic_year || '2025-2026'}
+          value={academy.academic_year || '2026'}
           icon={Sparkles}
           color="purple"
           subtext={academy.academy_name}

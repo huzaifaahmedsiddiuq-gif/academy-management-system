@@ -163,21 +163,27 @@ export class DashboardService {
         feeChartRes = await db.query(`
           SELECT 
             TO_CHAR(payment_date, 'Mon YYYY') as month_label,
-            SUM(amount) as collected
+            TO_CHAR(payment_date, 'Mon') as short_month,
+            EXTRACT(YEAR FROM payment_date)::integer as year_val,
+            SUM(amount) as collected,
+            COUNT(id) as payment_count
           FROM payments
-          GROUP BY TO_CHAR(payment_date, 'Mon YYYY'), DATE_TRUNC('month', payment_date)
+          GROUP BY TO_CHAR(payment_date, 'Mon YYYY'), TO_CHAR(payment_date, 'Mon'), EXTRACT(YEAR FROM payment_date), DATE_TRUNC('month', payment_date)
           ORDER BY DATE_TRUNC('month', payment_date) ASC
-          LIMIT 6
+          LIMIT 12
         `);
       } else {
         feeChartRes = await db.query(`
           SELECT 
             DATE_FORMAT(payment_date, '%b %Y') as month_label,
-            SUM(amount) as collected
+            DATE_FORMAT(payment_date, '%b') as short_month,
+            YEAR(payment_date) as year_val,
+            SUM(amount) as collected,
+            COUNT(id) as payment_count
           FROM payments
-          GROUP BY DATE_FORMAT(payment_date, '%b %Y'), YEAR(payment_date), MONTH(payment_date)
+          GROUP BY DATE_FORMAT(payment_date, '%b %Y'), DATE_FORMAT(payment_date, '%b'), YEAR(payment_date), MONTH(payment_date)
           ORDER BY YEAR(payment_date) ASC, MONTH(payment_date) ASC
-          LIMIT 6
+          LIMIT 12
         `);
       }
       monthlyFeeChart = feeChartRes.rows || [];

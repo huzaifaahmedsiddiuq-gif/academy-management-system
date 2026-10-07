@@ -470,7 +470,7 @@ export const ResultsPage = () => {
                   required
                   value={examForm.title}
                   onChange={(e) => setExamForm({ ...examForm, title: e.target.value })}
-                  placeholder="e.g. Mid-Term Evaluation 2025, First Term"
+                  placeholder="e.g. Mid-Term Evaluation 2026, First Term"
                   className="w-full px-3 py-2 bg-slate-50 dark:bg-surface-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>

@@ -356,7 +356,7 @@ export const FeesPage = () => {
                   required
                   value={generateForm.monthYear}
                   onChange={(e) => setGenerateForm({ ...generateForm, monthYear: e.target.value })}
-                  placeholder="e.g. October 2025"
+                  placeholder="e.g. October 2026"
                   className="w-full px-3 py-2 bg-slate-50 dark:bg-surface-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none"
                 />
               </div>

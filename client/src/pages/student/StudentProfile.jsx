@@ -91,7 +91,7 @@ export const StudentProfile = () => {
       doc.text(academy.academy_name, 14, 20);
       doc.setFontSize(12);
       doc.text('OFFICIAL STUDENT RECORD PROFILE', 14, 28);
-      doc.text(`Academic Session: ${academy.academic_year || '2025-2026'}`, 14, 35);
+      doc.text(`Academic Session: ${academy.academic_year || '2026'}`, 14, 35);
 
       const tableData = [
         ['Full Name', student.full_name || user?.username],
@@ -146,7 +146,7 @@ export const StudentProfile = () => {
     <div className="space-y-6 animate-in fade-in">
       <PrintHeader
         title="Official Student Profile Document"
-        subtitle={`Academy Identification & Enrollment Dossier • ${academy.academic_year || '2025-2026'}`}
+        subtitle={`Academy Identification & Enrollment Dossier • ${academy.academic_year || '2026'}`}
       />
 
       {/* Screen Header */}
